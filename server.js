@@ -31,8 +31,27 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 app.get("/scrape", function (req, res) {
-    axios.get("")
-})
+    axios.get("http://www.espn.com/").then(function (response) {
+        var $ = cheerio.load(response.data);
+
+        $("a", "article").each(function (i, element) {
+            var result = {};
+
+            result.title = $(this).children("contentItem__contentWrapper").children("contentItem__titleWrapper").children("h1").text();
+            result.summary = $(this).children("contentItem__contentWrapper").children("contentItem__titleWrapper").children("p").text();
+            result.link = $(this).attr("href");
+
+            db.article.create(result)
+                .then(function (dbarticle) {
+                })
+                .catch(function (err) {
+                    return res.json(err);
+                });
+        });
+
+        console.log("Scrape Complete");
+    });
+});
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
