@@ -63,6 +63,23 @@ app.get("/articles", function (req, res) {
         })
 });
 
+app.get("/saved", function (req, res) {
+    db.article.find({ saved: true })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        })
+});
+
+app.post("/saved", function (req, res) {
+
+})
+
+app.post("/comment", function (req, res) {
+
+})
 //need an get route to find all saved articles
 //need a post route to save articles
 app.listen(PORT, function () {
