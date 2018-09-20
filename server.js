@@ -42,7 +42,7 @@ app.get("/scrape", function (req, res) {
             result.link = $(this).attr("href");
 
             db.article.create(result)
-                .then(function (dbarticle) {
+                .then(function (dbArticle) {
                 })
                 .catch(function (err) {
                     return res.json(err);
@@ -52,6 +52,19 @@ app.get("/scrape", function (req, res) {
         console.log("Scrape Complete");
     });
 });
+
+app.get("/articles", function (req, res) {
+    db.article.find({})
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        })
+});
+
+//need an get route to find all saved articles
+//need a post route to save articles
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
