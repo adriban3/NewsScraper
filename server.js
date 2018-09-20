@@ -77,8 +77,18 @@ app.post("/saved", function (req, res) {
 
 })
 
-app.post("/comment", function (req, res) {
-
+app.post("/note/:id", function (req, res) {
+    //need to write out req.body on front end
+    db.note.create(req.body)
+        .then(function (dbNote) {
+            return db.article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+        })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        })
 })
 //need an get route to find all saved articles
 //need a post route to save articles
