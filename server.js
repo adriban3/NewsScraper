@@ -73,14 +73,14 @@ app.get("/saved", function (req, res) {
         })
 });
 
-app.post("/saved/:id", function (req, res) {
+app.post("/save/:id", function (req, res) {
     db.article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
         .catch(function (err) {
             res.json(err);
         })
 });
 
-app.post("/unsaved/:id", function (req, res) {
+app.post("/unsave/:id", function (req, res) {
     db.article.findOneAndUpdate({ _id: req.params.id }, { saved: false })
         .catch(function (err) {
             res.json(err);
